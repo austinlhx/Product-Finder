@@ -13,17 +13,18 @@ import {
   Button,
 } from "@material-ui/core";
 
+let endpoint = "http://localhost:8080";
+
 //let endpoint = "http://localhost:8080";
 
 class dealFinder extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      age: "",
-      setAge: "",
       open: false,
       setOpen: false,
       ProductName: "",
+      ProductType: "",
       LowerBound: "",
       UpperBound: "",
     };
@@ -35,16 +36,27 @@ class dealFinder extends Component {
       });
   };
 
-  Submit = () => {
-      const {
-          ProductName: ProductName,
-      } = this.state;
-      console.log(ProductName)
-      
-      console.log("button clicked")
+  handleSubmit = () => {
+    alert("clicked")
+      const { ProductName, LowerBound, UpperBound, ProductType } = this.state;
       console.log(this.state)
+      axios.post(
+        endpoint + "/api",
+        {
+          ProductName: ProductName,
+          LowerBound: LowerBound,
+          UpperBound: UpperBound,
+          ProductType: ProductType,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      ).then((res) => {
+      })
   }
-
+  
   
   handleClose = () => {
     this.setState.setOpen = false;
@@ -52,32 +64,35 @@ class dealFinder extends Component {
   handleOpen = () => {
     this.setState.setOpen = true;
   };
+
   render() {
-      const {
-          ProductName,
-      } = this.state;
     return (
-      <div className="App">
+        <div>
+            <ul class = "box-area">
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+              <li></li>
+          </ul>      
+      <div className="App">      
         <div className="container">
           <div class="product left">
             <Grid container spacing={3}>
               <Grid item xs={12}>
-                <Typography variant="h4">Product Search</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <FormControl>
-                  <InputLabel htmlFor="my-input" onChange={this.handleChange}
-                  value={ProductName || ""}>Product Item</InputLabel>
-                  <Input id="my-input" aria-describedby="my-helper-text" />
-                  <FormHelperText id="my-helper-text">
-                    e.g. Airpods Pro, Beats Headphones, etc.
-                  </FormHelperText>
-                </FormControl>
+                <Typography variant="h4" color="textSecondary">Product Search</Typography>
               </Grid>
               <Grid item xs={12}>
                 <FormControl>
                   <InputLabel htmlFor="my-input">Product Item</InputLabel>
-                  <Input id="my-input" aria-describedby="my-helper-text" />
+                  <Input id="ProductName" name="ProductName" aria-describedby="my-helper-text" 
+                  onChange={this.handleChange}
+                   />
                   <FormHelperText id="my-helper-text">
                     e.g. Airpods Pro, Beats Headphones, etc.
                   </FormHelperText>
@@ -90,12 +105,13 @@ class dealFinder extends Component {
                   </InputLabel>
                   <Select
                     labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
+
                     open={this.open}
                     onClose={this.handleClose}
                     onOpen={this.handleOpen}
-                    value={this.age}
                     onChange={this.handleChange}
+
+                    name= "ProductType"
                   >
                     <MenuItem value={"electronics"}>Electronics</MenuItem>
                     <MenuItem value={"clothing"}>Clothing</MenuItem>
@@ -106,28 +122,77 @@ class dealFinder extends Component {
               <Grid item xs={6}>
                 <FormControl>
                   <InputLabel htmlFor="my-input">Lower Bound Price</InputLabel>
-                  <Input id="my-input" aria-describedby="my-helper-text" />
-                  <FormHelperText id="my-helper-text">e.g. 15</FormHelperText>
+                  <Input aria-describedby="my-helper-text" id="LowerBound" name="LowerBound" onChange={this.handleChange} />
+                  <FormHelperText >e.g. 15</FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={6}>
                 <FormControl>
                   <InputLabel htmlFor="my-input">Upper Bound Price</InputLabel>
-                  <Input id="my-input" aria-describedby="my-helper-text" />
+                  <Input id="UpperBound" name="UpperBound" onChange={this.handleChange} aria-describedby="my-helper-text" />
                   <FormHelperText id="my-helper-text">e.g. 18</FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={12}>
-                <Button onClick = {this.Submit}>Search</Button>
+                <Button onClick = {this.handleSubmit}>Search</Button>
               </Grid>
             </Grid>
           </div>
           <div class="product right">
-            <Typography variant="h4">Product Search</Typography>
-            <p>some</p>
+          <div className="row">
+            <div className="column">
+            <img src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg" style={{width:"100%"}}></img>
+            </div>
+            <div className="column">
+            <p>Product</p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column">
+            <img src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg" style={{width:"100%"}}></img>
+            </div>
+            <div className="column">
+            <p>Product</p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column">
+            <img src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg" style={{width:"100%"}}></img>
+            </div>
+            <div className="column">
+            <p>Product</p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column">
+            <img src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg" style={{width:"100%"}}></img>
+            </div>
+            <div className="column">
+            <p>Product</p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column">
+            <img src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg" style={{width:"100%"}}></img>
+            </div>
+            <div className="column">
+            <p>Product</p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="column">
+            <img src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg" style={{width:"100%"}}></img>
+            </div>
+            <div className="column">
+            <p>Product</p>
+            </div>
+          </div>
           </div>
         </div>
+          
       </div>
+      </div>
+      
     );
   }
 }
