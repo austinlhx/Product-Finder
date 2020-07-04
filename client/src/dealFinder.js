@@ -119,14 +119,14 @@ class dealFinder extends Component {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <FormControl>
                   <InputLabel htmlFor="my-input">Lower Bound Price</InputLabel>
                   <Input aria-describedby="my-helper-text" id="LowerBound" name="LowerBound" onChange={this.handleChange} />
                   <FormHelperText >e.g. 15</FormHelperText>
                 </FormControl>
               </Grid>
-              <Grid item xs={6}>
+              <Grid item xs={12}>
                 <FormControl>
                   <InputLabel htmlFor="my-input">Upper Bound Price</InputLabel>
                   <Input id="UpperBound" name="UpperBound" onChange={this.handleChange} aria-describedby="my-helper-text" />

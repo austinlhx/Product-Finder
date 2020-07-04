@@ -7,8 +7,8 @@ import (
 
 var dealFinderRoutes = []Route{
 	Route{
-		URI:     "",
+		URI:     "/api",
 		Method:  http.MethodPost,
-		Handler: controllers.GetEachCase,
+		Handler: controllers.SearchProduct,
 	},
 }
