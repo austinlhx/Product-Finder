@@ -1,8 +1,9 @@
 package routes
 
 import (
-	"github.com/austinlhx/DealFinder/server/controllers"
 	"net/http"
+
+	"../../controllers"
 )
 
 var dealFinderRoutes = []Route{
@@ -10,5 +11,10 @@ var dealFinderRoutes = []Route{
 		URI:     "/api",
 		Method:  http.MethodPost,
 		Handler: controllers.SearchProduct,
+	},
+	Route{
+		URI:     "/api",
+		Method:  http.MethodGet,
+		Handler: controllers.GetProduct,
 	},
 }

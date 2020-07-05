@@ -1,8 +1,17 @@
 package services
 
-func SearchBestBuy(){
-	return domain.SearchBestBuy()
+import (
+	"../models"
+	"../domain"
+)
+
+func SearchBestBuy(product *models.Products) []models.ProductFound{
+	return domain.SearchBestBuy(product)
 }
-func SearchAmazon(){
-	return domain.SearchAmazon()
+func SearchAmazon(product *models.Products) []models.ProductFound{
+	return domain.SearchAmazon(product)
+}
+
+func SearchProduct(product models.Product) *models.Products {
+	return domain.SearchProduct(product)
 }

@@ -1,8 +1,22 @@
 package models
 
 type Product struct {
-	ProductName     string `json:"product_name, omitempty"` 
-	ProductType     string `json:"product_type, omitempty"` 
-	UpperBoundPrice float64 `json:"upper_bound, omitempty"` 
-	LowerBoundPrice float64 `json:"lower_bound, omitempty"` 
-} 
+	ProductName string `json:"ProductName, omitempty"`
+	ProductType string `json:"ProductType, omitempty"`
+	UpperBound  string `json:"UpperBound, omitempty"`
+	LowerBound  string `json:"LowerBound, omitempty"`
+}
+
+type Products struct {
+	ProductName string
+	ProductType string
+	UpperBound  float64
+	LowerBound  float64
+}
+
+type ProductFound struct {
+	Name string 
+	Price float64
+	//Link string
+	//Photo string
+}

@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/austinlhx/DealFinder/server/router/routes"
+	"./routes"
 	"github.com/gorilla/mux"
 )
 
