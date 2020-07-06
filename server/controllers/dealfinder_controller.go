@@ -10,6 +10,8 @@ import (
 	"../utils"
 )
 
+var allProducts = []models.ProductFound{}
+
 func SearchProduct(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -42,10 +44,11 @@ func SearchProduct(w http.ResponseWriter, r *http.Request){
 	allProducts = append(allProducts, productBestBuy)*/
 	log.Println(productAmazon)
 	log.Println(productBestBuy)
+	allProducts = productAmazon
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
-
+	json.NewEncoder(w).Encode(allProducts)
 }
