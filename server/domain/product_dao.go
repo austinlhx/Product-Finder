@@ -37,7 +37,9 @@ func SearchBestBuy(product *models.Products) []models.ProductFound{
 		temp := models.ProductFound{}
 		//fmt.Println(e.Request.AbsoluteURL(e.Attr("href")))
 		//e.Request.Visit(e.Attr("href"))
-		//e.Request.Visit(e.ChildText("a-price"))
+		//e.Request.Visit(e.ChildText("a-price"))\
+		temp.Image = "http://www.bestbuy.com" + e.ChildAttr("img.product-image", "src")
+		temp.Link = e.ChildAttr("a.image-link", "href")
 		temp.Name = e.ChildText("h4.sku-header")
 		price := e.ChildText("div.priceView-hero-price.priceView-customer-price span[aria-hidden=true]")
 		switch lengthPrice := len(price); {
@@ -81,6 +83,8 @@ func SearchAmazon(product *models.Products) []models.ProductFound{
 		//e.Request.Visit(e.Attr("href"))
 		//e.Request.Visit(e.ChildText("a-price"))
 		temp.Name = e.ChildText("span.a-size-base-plus.a-color-base.a-text-normal")
+		temp.Link = "http://www.amazon.com" + e.ChildAttr("a.a-link-normal.a-text-normal", "href")
+		temp.Image = e.ChildAttr("img.s-image", "src")
 		price := e.ChildText("span.a-offscreen")
 		switch lengthPrice := len(price); {
 		case lengthPrice > 5:

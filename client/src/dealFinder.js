@@ -11,6 +11,7 @@ import {
   Typography,
   Grid,
   Button,
+  isMuiElement,
 } from "@material-ui/core";
 
 let endpoint = "http://localhost:8080";
@@ -38,7 +39,6 @@ class dealFinder extends Component {
   };
 
   handleSubmit = () => {
-    alert("clicked");
     const { ProductName, LowerBound, UpperBound, ProductType } = this.state;
     console.log(this.state);
     axios
@@ -72,12 +72,12 @@ class dealFinder extends Component {
                     <div className="row">
                       <div className="column">
                         <img
-                          src="https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg"
+                          src={item.Image}
                           style={{ width: "100%" }}
                         ></img>
                       </div>
                       <div className="column">
-                        <p>{item.Name}</p>
+                        <a href={item.Link}>{item.Name}</a>
                         <p>{item.Price}</p>
                       </div>
                     </div>

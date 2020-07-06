@@ -17,6 +17,6 @@ type Products struct {
 type ProductFound struct {
 	Name string 
 	Price float64
-	//Link string
-	//Photo string
+	Link string
+	Image string
 }

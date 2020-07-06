@@ -45,6 +45,8 @@ func SearchProduct(w http.ResponseWriter, r *http.Request){
 	log.Println(productAmazon)
 	log.Println(productBestBuy)
 	allProducts = productAmazon
+	allProducts = append(allProducts, productBestBuy...)
+	//TODO: Implement quick sort for the price
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {
