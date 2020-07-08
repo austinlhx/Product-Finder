@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"sync"
 
 	"../models"
 	"../services"
@@ -12,7 +13,7 @@ import (
 
 var allProducts = []models.ProductFound{}
 
-func SearchProduct(w http.ResponseWriter, r *http.Request){
+func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST")
@@ -34,19 +35,25 @@ func SearchProduct(w http.ResponseWriter, r *http.Request){
 		log.Println(err)
 		return
 	}
-	log.Println(product.ProductName)
 	productQuery := services.SearchProduct(product)
-	productAmazon := services.SearchAmazon(productQuery)
-	productBestBuy := services.SearchBestBuy(productQuery)
+	//log.Println(product.ProductName)
+	//var wg sync.WaitGroup
+	productsFound := make(chan models.ProductFound)
 
-	/*allProducts := []models.ProductFound{}
-	allProducts = append(allProducts, productAmazon)
-	allProducts = append(allProducts, productBestBuy)*/
-	log.Println(productAmazon)
-	log.Println(productBestBuy)
-	allProducts = productAmazon
-	allProducts = append(allProducts, productBestBuy...)
-	//TODO: Implement quick sort for the price
+    go func() {
+        var wg sync.WaitGroup
+        wg.Add(2)
+        go services.SearchBestBuy(productQuery, productsFound, &wg) //Fan out 2 go routines
+        go services.SearchAmazon(productQuery, productsFound, &wg) //producer
+        wg.Wait()
+        close(productsFound)
+    }()
+//consumer down here
+    for productFound := range productsFound { //fanin
+        allProducts = append(allProducts, productFound)
+	}
+	
+	log.Println(allProducts)
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {

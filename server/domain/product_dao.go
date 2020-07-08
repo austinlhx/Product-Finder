@@ -5,32 +5,34 @@ import (
 	"log"
 	"strconv"
 	"strings"
+	"sync"
+
 	"../models"
 	"github.com/gocolly/colly"
 )
 
-func SearchProduct(product models.Product) *models.Products{
-//TODO: Verify if info is correct
+func SearchProduct(product models.Product) *models.Products {
+	//TODO: Verify if info is correct
 	tempUpper, _ := strconv.ParseFloat(product.UpperBound, 2)
 	tempLower, _ := strconv.ParseFloat(product.LowerBound, 2)
 	p := &models.Products{
-		ProductName: product.ProductName, 
+		ProductName: product.ProductName,
 		ProductType: product.ProductType,
-		UpperBound: tempUpper,
-		LowerBound: tempLower,
+		UpperBound:  tempUpper,
+		LowerBound:  tempLower,
 	}
 	log.Println(p)
 	return p
 }
+
 //type temp should be different
-func SearchBestBuy(product *models.Products) []models.ProductFound{
-	products := []models.ProductFound{}
+func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
+	defer wg.Done()
 	query := product.ProductName
 	query = strings.ReplaceAll(query, " ", "%20")
 	c := colly.NewCollector(
 		colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"),
 	)
-
 	//allProducts := make(map[string]string)
 	// Find and visit all links
 	c.OnHTML("li.sku-item", func(e *colly.HTMLElement) {
@@ -38,8 +40,8 @@ func SearchBestBuy(product *models.Products) []models.ProductFound{
 		//fmt.Println(e.Request.AbsoluteURL(e.Attr("href")))
 		//e.Request.Visit(e.Attr("href"))
 		//e.Request.Visit(e.ChildText("a-price"))\
-		temp.Image = "http://www.bestbuy.com" + e.ChildAttr("img.product-image", "src")
-		temp.Link = e.ChildAttr("a.image-link", "href")
+		temp.Image = e.ChildAttr("img.product-image", "src")
+		temp.Link = "http://www.bestbuy.com" + e.ChildAttr("a.image-link", "href")
 		temp.Name = e.ChildText("h4.sku-header")
 		price := e.ChildText("div.priceView-hero-price.priceView-customer-price span[aria-hidden=true]")
 		switch lengthPrice := len(price); {
@@ -52,8 +54,9 @@ func SearchBestBuy(product *models.Products) []models.ProductFound{
 		} //calling <span aria-hidden= true>Price</span>
 		//fmt.Println(price)
 		if temp.Price < product.UpperBound && temp.Price > product.LowerBound {
-			products = append(products, temp)
+			ch <- temp
 		}
+		
 	})
 
 	c.OnRequest(func(r *colly.Request) {
@@ -62,14 +65,14 @@ func SearchBestBuy(product *models.Products) []models.ProductFound{
 	})
 
 	c.Visit("https://www.bestbuy.com/site/searchpage.jsp?st=" + query)
-	c.Visit("https://www.bestbuy.com/site/searchpage.jsp?cp=2&st=xboxcontroller") //should i do this or naw
+	//c.Visit("https://www.bestbuy.com/site/searchpage.jsp?cp=2&st=xboxcontroller") //should i do this or naw
 	//fmt.Println(allProducts)
-	return products
+	//log.Println(products)
 
 }
 
-func SearchAmazon(product *models.Products) []models.ProductFound{
-	products := []models.ProductFound{}
+func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
+	defer wg.Done()
 	query := product.ProductName
 	query = strings.ReplaceAll(query, " ", "%20")
 	c := colly.NewCollector(
@@ -97,8 +100,9 @@ func SearchAmazon(product *models.Products) []models.ProductFound{
 
 		//e.Request.Visit(e.Text)
 		if temp.Price < product.UpperBound && temp.Price > product.LowerBound {
-			products = append(products, temp)
+			ch <- temp
 		}
+		
 
 	})
 
@@ -107,7 +111,7 @@ func SearchAmazon(product *models.Products) []models.ProductFound{
 	})
 
 	c.Visit("https://www.amazon.com/s?k=" + query + "&ref=nb_sb_noss_2")
-	return products
+	//log.Println(products)
 
 }
 

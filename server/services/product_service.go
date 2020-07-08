@@ -1,15 +1,17 @@
 package services
 
 import (
-	"../models"
+	"sync"
+
 	"../domain"
+	"../models"
 )
 
-func SearchBestBuy(product *models.Products) []models.ProductFound{
-	return domain.SearchBestBuy(product)
+func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
+	domain.SearchBestBuy(product, ch, wg)
 }
-func SearchAmazon(product *models.Products) []models.ProductFound{
-	return domain.SearchAmazon(product)
+func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
+	domain.SearchAmazon(product, ch, wg)
 }
 
 func SearchProduct(product models.Product) *models.Products {
