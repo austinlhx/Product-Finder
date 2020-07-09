@@ -38,24 +38,43 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	productQuery := services.SearchProduct(product)
 	//log.Println(product.ProductName)
 	//var wg sync.WaitGroup
+	allProducts = []models.ProductFound{}
 	productsFound := make(chan models.ProductFound)
-
-	go func() {
-		var wg sync.WaitGroup
-		wg.Add(5)
-		go services.SearchBestBuy(productQuery, productsFound, &wg) //Fan out 2 go routines
-		go services.SearchAmazon(productQuery, productsFound, &wg)  //producer
-		go services.SearchNewEgg(productQuery, productsFound, &wg)
-		go services.SearchBHPhotoVideo(productQuery, productsFound, &wg)
-		go services.SearchAdorama(productQuery, productsFound, &wg)
-		wg.Wait()
-		close(productsFound)
-	}()
-	allProducts = []models.ProductFound{} //reset products
-	//consumer down here
-	for productFound := range productsFound { //fanin
-		allProducts = append(allProducts, productFound)
+	if productQuery.ProductType == "Electronics"{
+		go func() {
+			var wg sync.WaitGroup
+			wg.Add(5)
+			go services.SearchBestBuy(productQuery, productsFound, &wg) //Fan out 2 go routines
+			go services.SearchAmazon(productQuery, productsFound, &wg)  //producer
+			go services.SearchNewEgg(productQuery, productsFound, &wg)
+			go services.SearchBHPhotoVideo(productQuery, productsFound, &wg)
+			go services.SearchAdorama(productQuery, productsFound, &wg)
+			wg.Wait()
+			close(productsFound)
+		}()
+		 //reset products
+		//consumer down here
+		for productFound := range productsFound { //fanin
+			allProducts = append(allProducts, productFound)
+		}
 	}
+
+	if productQuery.ProductType == "Clothing"{
+		go func() {
+			var wg sync.WaitGroup
+			wg.Add(3)
+			go services.SearchBloomingdales(productQuery, productsFound, &wg)
+			go services.SearchSaksFifth(productQuery, productsFound, &wg)
+			go services.SearchNeimanMarcus(productQuery, productsFound, &wg)
+			wg.Wait()
+			close(productsFound)
+		}()
+		//consumer down here
+		for productFound := range productsFound { //fanin
+			allProducts = append(allProducts, productFound)
+		}
+	}
+	
 
 }
 
