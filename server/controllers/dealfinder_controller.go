@@ -40,21 +40,23 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	//var wg sync.WaitGroup
 	productsFound := make(chan models.ProductFound)
 
-    go func() {
-        var wg sync.WaitGroup
-        wg.Add(2)
-        go services.SearchBestBuy(productQuery, productsFound, &wg) //Fan out 2 go routines
-        go services.SearchAmazon(productQuery, productsFound, &wg) //producer
-        wg.Wait()
-        close(productsFound)
+	go func() {
+		var wg sync.WaitGroup
+		wg.Add(5)
+		go services.SearchBestBuy(productQuery, productsFound, &wg) //Fan out 2 go routines
+		go services.SearchAmazon(productQuery, productsFound, &wg)  //producer
+		go services.SearchNewEgg(productQuery, productsFound, &wg)
+		go services.SearchBHPhotoVideo(productQuery, productsFound, &wg)
+		go services.SearchAdorama(productQuery, productsFound, &wg)
+		wg.Wait()
+		close(productsFound)
 	}()
 	allProducts = []models.ProductFound{} //reset products
-//consumer down here
+	//consumer down here
 	for productFound := range productsFound { //fanin
 		allProducts = append(allProducts, productFound)
 	}
-	
-	
+
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {

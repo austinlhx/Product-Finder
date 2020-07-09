@@ -124,7 +124,7 @@ sortByAlphabetDSC = () => {
                         <img
                           src={item.Image}
                           style={{ width: "100%", height: "100%" }}
-                          alt={item.Name + " image"}
+                          alt="Image Not Available"
                         ></img>
                       </div>
                       <div className="column">
