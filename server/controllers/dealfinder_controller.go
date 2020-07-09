@@ -47,13 +47,17 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
         go services.SearchAmazon(productQuery, productsFound, &wg) //producer
         wg.Wait()
         close(productsFound)
-    }()
+	}()
+	allProducts = []models.ProductFound{} //reset products
 //consumer down here
-    for productFound := range productsFound { //fanin
-        allProducts = append(allProducts, productFound)
+	for productFound := range productsFound { //fanin
+		
+		allProducts = append(allProducts, productFound)
+		log.Println(allProducts)
+		
 	}
 	
-	log.Println(allProducts)
+	
 }
 
 func GetProduct(w http.ResponseWriter, r *http.Request) {
