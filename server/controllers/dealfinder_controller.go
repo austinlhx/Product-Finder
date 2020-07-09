@@ -51,10 +51,7 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	allProducts = []models.ProductFound{} //reset products
 //consumer down here
 	for productFound := range productsFound { //fanin
-		
 		allProducts = append(allProducts, productFound)
-		log.Println(allProducts)
-		
 	}
 	
 	

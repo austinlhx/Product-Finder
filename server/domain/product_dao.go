@@ -56,7 +56,7 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 		if temp.Price < product.UpperBound && temp.Price > product.LowerBound {
 			ch <- temp
 		}
-		
+
 	})
 
 	c.OnRequest(func(r *colly.Request) {
@@ -65,7 +65,7 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 	})
 
 	c.Visit("https://www.bestbuy.com/site/searchpage.jsp?st=" + query)
-	//c.Visit("https://www.bestbuy.com/site/searchpage.jsp?cp=2&st=xboxcontroller") //should i do this or naw
+	c.Visit("https://www.bestbuy.com/site/searchpage.jsp?cp=2&st=" + query) //should i do this or naw
 	//fmt.Println(allProducts)
 	//log.Println(products)
 
@@ -80,12 +80,12 @@ func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *syn
 	)
 
 	// Find and visit all links
-	c.OnHTML("div.a-section.a-spacing-medium", func(e *colly.HTMLElement) {
+	c.OnHTML("div.a-section.a-spacing-medium", func(e *colly.HTMLElement) { //a-size-medium a-color-base a-text-normal
 		temp := models.ProductFound{}
 		//fmt.Println(e.Request.AbsoluteURL(e.Attr("href")))
 		//e.Request.Visit(e.Attr("href"))
 		//e.Request.Visit(e.ChildText("a-price"))
-		temp.Name = e.ChildText("span.a-size-base-plus.a-color-base.a-text-normal")
+		temp.Name = e.ChildText("span.a-size-base-plus.a-color-base.a-text-normal") //and a switch statement check if each child text is empty then switch to an avialable one
 		temp.Link = "http://www.amazon.com" + e.ChildAttr("a.a-link-normal.a-text-normal", "href")
 		temp.Image = e.ChildAttr("img.s-image", "src")
 		price := e.ChildText("span.a-offscreen")
@@ -102,7 +102,6 @@ func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *syn
 		if temp.Price < product.UpperBound && temp.Price > product.LowerBound {
 			ch <- temp
 		}
-		
 
 	})
 
