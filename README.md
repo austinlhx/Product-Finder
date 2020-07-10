@@ -7,7 +7,7 @@ Deal-Finder is a concurrent web scraper that follows a fan-in fan-out pattern. I
 Go 1.14+ and React 16.9+ is required to run this program.
 
 ## Example
-![Example Gif](https://media.giphy.com/media/QxSeXT69CTys85Mxi1/source.gif)
+![Example Gif](https://github.com/austinlhx/Deal-Finder/blob/master/dealfinder.gif)
 <img src="https://giphy.com/gifs/tiktok-cat-tiktok-animals-gifs-fVyPPH3Mm8eBb2gsht" width="40" height="40" />
 
 ## Contributing
