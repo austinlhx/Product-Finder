@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"../router"
 )
-
+//StartApp starts the app
 func StartApp() {
 	r := router.Router()
 	log.Println("Starting server on the port 8080...")
