@@ -1,5 +1,5 @@
 # Deal-Finder
-[![Go Report Card](https://goreportcard.com/badge/github.com/austinlhx/Deal-Finder)](https://goreportcard.com/report/github.com/austinlhx/Deal-Finder) [![Awesome Badge](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/austinlhx/Deal-Finder)](https://goreportcard.com/report/github.com/austinlhx/Deal-Finder) ![Awesome Badge](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)
 
 Deal-Finder is a concurrent web scraper that follows a fan-in fan-out pattern. It currently supports over 10+ websites including BestBuy, Adorama, Bloomingdales, and much more. It is fully built with GoLang and ReactJS. 
 
