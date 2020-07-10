@@ -8,6 +8,7 @@ Go 1.14+ and React 16.9+ is required to run this program.
 
 ## Example
 ![Example Gif](https://media.giphy.com/media/QxSeXT69CTys85Mxi1/source.gif)
+<img src="https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif" width="40" height="40" />
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
