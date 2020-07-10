@@ -12,21 +12,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
-func SearchProduct(product models.Product) *models.Products {
-	//TODO: Verify if info is correct
-	tempUpper, _ := strconv.ParseFloat(product.UpperBound, 2)
-	tempLower, _ := strconv.ParseFloat(product.LowerBound, 2)
-	p := &models.Products{
-		ProductName: product.ProductName,
-		ProductType: product.ProductType,
-		UpperBound:  tempUpper,
-		LowerBound:  tempLower,
-	}
-	log.Println(p)
-	return p
-}
-
-
+//SearchBestBuy searches all of https://www.bestbuy.com product info
 func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -58,7 +44,7 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 
 	c.OnRequest(func(r *colly.Request) {
 
-		fmt.Println("Visiting", r.URL)
+		log.Println("Visiting", r.URL)
 	})
 
 	c.Visit("https://www.bestbuy.com/site/searchpage.jsp?st=" + query)
@@ -67,6 +53,7 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 
 }
 
+//SearchAmazon searches all of https://www.amazon.com product info
 func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -99,13 +86,14 @@ func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *syn
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		log.Println("Visiting", r.URL)
 	})
 
 	c.Visit("https://www.amazon.com/s?k=" + query + "&ref=nb_sb_noss_2")
 
 }
 
+//SearchNewEgg searches all of https://www.newegg.com product info
 func SearchNewEgg(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -126,13 +114,14 @@ func SearchNewEgg(product *models.Products, ch chan models.ProductFound, wg *syn
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		log.Println("Visiting", r.URL)
 	})
 
 	c.Visit("https://www.newegg.com/p/pl?d=" + query)
 
 }
 
+//SearchBHPhotoVideo searches all of https://www.bhphotovideo.com product info
 func SearchBHPhotoVideo(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -161,12 +150,13 @@ func SearchBHPhotoVideo(product *models.Products, ch chan models.ProductFound, w
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		log.Println("Visiting", r.URL)
 	})
 
 	c.Visit("https://www.bhphotovideo.com/c/search?Ntt=" + query + "&N=0&InitialSearch=yes&sts=ma")
 }
 
+//SearchAdorama searches all of https://www.adorama.com product info
 func SearchAdorama(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -198,7 +188,7 @@ func SearchAdorama(product *models.Products, ch chan models.ProductFound, wg *sy
 	})
 
 	c.OnRequest(func(r *colly.Request) {
-		fmt.Println("Visiting", r.URL)
+		log.Println("Visiting", r.URL)
 	})
 
 	c.Visit("https://www.adorama.com/l/?searchinfo="+ query + "&sel=Item-Condition_New-Items")

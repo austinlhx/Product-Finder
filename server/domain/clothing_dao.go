@@ -11,6 +11,7 @@ import (
 	"github.com/gocolly/colly"
 )
 
+//SearchBloomingdales searches all of https://www.bloomingdales.com product info
 func SearchBloomingdales(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -51,7 +52,7 @@ func SearchBloomingdales(product *models.Products, ch chan models.ProductFound, 
 	c.Visit("https://www.bloomingdales.com/shop/search?keyword=" + query)
 
 }
-
+//SearchSaksFifth searches all of https://www.saksfifthavenue.com product info
 func SearchSaksFifth(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
@@ -89,6 +90,7 @@ func SearchSaksFifth(product *models.Products, ch chan models.ProductFound, wg *
 
 }
 
+//SearchNeimanMarcus searches all of https://www.neimanmarcus.com product info
 func SearchNeimanMarcus(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()
 	query := product.ProductName
