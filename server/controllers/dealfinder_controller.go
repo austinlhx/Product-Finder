@@ -13,6 +13,7 @@ import (
 
 var allProducts = []models.ProductFound{}
 
+//SearchProduct is a controller that holds all of the logic
 func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -77,7 +78,7 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	
 
 }
-
+//GetProduct is a controller that GET the product info
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
 	w.Header().Set("Access-Control-Allow-Origin", "*")
