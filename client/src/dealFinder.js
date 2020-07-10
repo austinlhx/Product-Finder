@@ -132,6 +132,7 @@ sortByAlphabetDSC = () => {
                           {item.Name}
                         </Link>
                         <p>{"$" + item.Price}</p>
+                        <p>{item.Rating}</p>
                       </div>
                     </div>
                   );

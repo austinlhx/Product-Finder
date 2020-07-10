@@ -22,8 +22,8 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 
 	c.OnHTML("li.sku-item", func(e *colly.HTMLElement) {
 		temp := models.ProductFound{}
-
 		temp.Image = e.ChildAttr("img.product-image", "src")
+		temp.Rating = e.ChildText("div.c-ratings-reviews-v2.ugc-ratings-reviews.v-small p.sr-only")
 		temp.Link = "http://www.bestbuy.com" + e.ChildAttr("a.image-link", "href")
 		temp.Name = e.ChildText("h4.sku-header")
 		price := e.ChildText("div.priceView-hero-price.priceView-customer-price span[aria-hidden=true]")
@@ -66,6 +66,7 @@ func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *syn
 		} else {
 			temp.Name = e.ChildText("span.a-size-medium.a-color-base.a-text-normal")
 		}
+		temp.Rating = e.ChildAttr("div.a-row.a-size-small span", "aria-label")
 		temp.Link = "http://www.amazon.com" + e.ChildAttr("a.a-link-normal.a-text-normal", "href")
 		temp.Image = e.ChildAttr("img.s-image", "src")
 		price := e.ChildText("span.a-offscreen")
@@ -102,6 +103,8 @@ func SearchNewEgg(product *models.Products, ch chan models.ProductFound, wg *syn
 
 	c.OnHTML("div.item-container", func(e *colly.HTMLElement) {
 		temp := models.ProductFound{}
+		log.Println(e.ChildAttr("a.item-rating", "title") + " " + e.ChildText("span.item-rating-num"))
+		temp.Rating = e.ChildAttr("a.item-rating", "title") + " " + e.ChildText("span.item-rating-num")
 		temp.Name = e.ChildText("a.item-title")
 		temp.Link = e.ChildAttr("a.item-title", "href")
 		temp.Image = e.ChildAttr("img", "src")

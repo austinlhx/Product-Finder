@@ -22,4 +22,5 @@ type ProductFound struct {
 	Price float64
 	Link  string
 	Image string
+	Rating string
 }
