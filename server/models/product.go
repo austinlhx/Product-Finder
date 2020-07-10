@@ -7,6 +7,7 @@ type Product struct {
 	UpperBound  string `json:"UpperBound, omitempty"`
 	LowerBound  string `json:"LowerBound, omitempty"`
 }
+
 //Products sets the product being received from a post request
 type Products struct {
 	ProductName string
@@ -17,8 +18,8 @@ type Products struct {
 
 //ProductFound sets the product being received from a post request
 type ProductFound struct {
-	Name string 
+	Name  string
 	Price float64
-	Link string
+	Link  string
 	Image string
-}	
+}

@@ -52,6 +52,7 @@ func SearchBloomingdales(product *models.Products, ch chan models.ProductFound, 
 	c.Visit("https://www.bloomingdales.com/shop/search?keyword=" + query)
 
 }
+
 //SearchSaksFifth searches all of https://www.saksfifthavenue.com product info
 func SearchSaksFifth(product *models.Products, ch chan models.ProductFound, wg *sync.WaitGroup) {
 	defer wg.Done()

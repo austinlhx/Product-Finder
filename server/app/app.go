@@ -1,10 +1,11 @@
 package app
 
 import (
+	"../router"
 	"log"
 	"net/http"
-	"../router"
 )
+
 //StartApp starts the app
 func StartApp() {
 	r := router.Router()

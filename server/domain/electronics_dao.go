@@ -1,7 +1,6 @@
 package domain
 
 import (
-	"fmt"
 	"log"
 	"regexp"
 	"strconv"
@@ -35,7 +34,7 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 			temp.Price, _ = strconv.ParseFloat(price[1:5], 2)
 		default:
 			temp.Price = 0
-		} 
+		}
 		if temp.Price < product.UpperBound && temp.Price > product.LowerBound {
 			ch <- temp
 		}
@@ -50,7 +49,6 @@ func SearchBestBuy(product *models.Products, ch chan models.ProductFound, wg *sy
 	c.Visit("https://www.bestbuy.com/site/searchpage.jsp?st=" + query)
 	//c.Visit("https://www.bestbuy.com/site/searchpage.jsp?cp=2&st=" + query)
 
-
 }
 
 //SearchAmazon searches all of https://www.amazon.com product info
@@ -61,7 +59,7 @@ func SearchAmazon(product *models.Products, ch chan models.ProductFound, wg *syn
 	c := colly.NewCollector(
 		colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"),
 	)
-	c.OnHTML("div.a-section.a-spacing-medium", func(e *colly.HTMLElement) { 
+	c.OnHTML("div.a-section.a-spacing-medium", func(e *colly.HTMLElement) {
 		temp := models.ProductFound{}
 		if e.ChildText("span.a-size-base-plus.a-color-base.a-text-normal") != "" {
 			temp.Name = e.ChildText("span.a-size-base-plus.a-color-base.a-text-normal")
@@ -165,7 +163,6 @@ func SearchAdorama(product *models.Products, ch chan models.ProductFound, wg *sy
 		colly.UserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"),
 	)
 
-
 	c.OnHTML("div.item", func(e *colly.HTMLElement) {
 		temp := models.ProductFound{}
 		name := e.ChildText("h2 a.trackEvent")
@@ -191,6 +188,5 @@ func SearchAdorama(product *models.Products, ch chan models.ProductFound, wg *sy
 		log.Println("Visiting", r.URL)
 	})
 
-	c.Visit("https://www.adorama.com/l/?searchinfo="+ query + "&sel=Item-Condition_New-Items")
+	c.Visit("https://www.adorama.com/l/?searchinfo=" + query + "&sel=Item-Condition_New-Items")
 }
-

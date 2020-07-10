@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 )
+
 //SetMiddlewareLogger Prints the request type
 func SetMiddlewareLogger(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {

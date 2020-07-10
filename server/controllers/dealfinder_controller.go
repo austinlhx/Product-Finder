@@ -41,7 +41,7 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 	//var wg sync.WaitGroup
 	allProducts = []models.ProductFound{}
 	productsFound := make(chan models.ProductFound)
-	if productQuery.ProductType == "Electronics"{
+	if productQuery.ProductType == "Electronics" {
 		go func() {
 			var wg sync.WaitGroup
 			wg.Add(5)
@@ -53,14 +53,14 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 			wg.Wait()
 			close(productsFound)
 		}()
-		 //reset products
+		//reset products
 		//consumer down here
 		for productFound := range productsFound { //fanin
 			allProducts = append(allProducts, productFound)
 		}
 	}
 
-	if productQuery.ProductType == "Clothing"{
+	if productQuery.ProductType == "Clothing" {
 		go func() {
 			var wg sync.WaitGroup
 			wg.Add(3)
@@ -75,9 +75,9 @@ func SearchProduct(w http.ResponseWriter, r *http.Request) {
 			allProducts = append(allProducts, productFound)
 		}
 	}
-	
 
 }
+
 //GetProduct is a controller that GET the product info
 func GetProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Context-Type", "application/x-www-form-urlencoded")
