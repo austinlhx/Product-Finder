@@ -12,7 +12,6 @@ Go 1.14+ and React 16.9+ is required to run this program.
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-Please make sure to update tests as appropriate.
 
 ## 📝 License
 
